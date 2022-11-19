@@ -1,0 +1,52 @@
+@font-face {
+  font-family: junegull;
+  src: url(assets/junegull\ rg.ttf);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 100vh;
+  margin:0;
+  background-image: url("/assets/leaf_pattern.jpg");
+  background-size: 200px;
+}
+
+#control_panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding:1em;
+}
+
+#game_board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 90vw;
+  align-items:stretch;
+  
+  
+}
+
+.cell {
+  width: 2%;
+  aspect-ratio: 1/1;
+  box-sizing: border-box;
+  background-color:rgb(164, 219, 121);
+  /* border: 1px solid black; */
+}
+
+body > h1 {
+  color: white;
+  font-family:junegull, 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 2em;
+  letter-spacing: 0.3em;
+  width: 100%;
+  text-align: center;
+  background-color: rgba(0,0,0,0.3);
+  height: 2.5em;
+  margin: 0;
+  line-height: 2.5em;
+}
