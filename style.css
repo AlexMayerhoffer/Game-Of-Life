@@ -10,7 +10,7 @@ body {
   flex-direction: column;
   height: 100vh;
   margin:0;
-  background-image: url("/assets/leaf_pattern.jpg");
+  background-image: url("https://alexmayerhoffer.github.io/Game-Of-Life/assets/leaf_pattern.jpg");
   background-size: 200px;
 }
 
