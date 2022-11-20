@@ -1,4 +1,5 @@
 let game_board = document.getElementById("game_board");
+let time_slider = document.getElementById("time_slider");
 
 function drawCells(board, rows, cols) {
   for (let i = 0; i < rows; i++) {
@@ -32,33 +33,56 @@ function removeCells() {
 }
 
 document.getElementById("start").addEventListener("click", (e) => {
+  e.target.disabled = true;
+  document.getElementById("reset").disabled = false;
   startGame(seed);
 });
 
+document.getElementById("reset").addEventListener("click", async (e) => {
+  e.target.disabled = true;
+  should_reset = 1;
+  seed = createSeed(mat, rows, cols);
+  removeCells();
+  // document.getElementById("iterations").innerHTML = `Iteratii: 0`;
+  drawCells(seed, rows, cols);
+  document.getElementById("start").disabled = false;
+})
+
+let should_reset = 0;
 let cols = 100;
 let rows = Math.floor(cols * (15 / 40));
+
+
 
 // Game logic --------------------------------------------
 async function startGame(seed) {
   let nr_iter = 0;
   console.log("Start game");
 
-  while (true) {
+  let board1 = seed;
+  let board2 = createMatrix(rows, cols);
+
+  while (!should_reset) {
     board2 = getNextBoard(board1, rows, cols);
     updateCells(board1, rows, cols);
-    nr_iter++;
-    document.getElementById("iterations").innerHTML = `Iteratii: ${nr_iter}`;
-    await delay(50);
+    // nr_iter++;
+    // document.getElementById("iterations").innerHTML = `Iteratii: ${nr_iter}`;
+    await delay();
+    if(should_reset)
+    break;
     board1 = getNextBoard(board2, rows, cols);
     updateCells(board2, rows, cols);
-    nr_iter++;
-    document.getElementById("iterations").innerHTML = `Iteratii: ${nr_iter}`;
-    await delay(50);
+    // nr_iter++;
+    // document.getElementById("iterations").innerHTML = `Iteratii: ${nr_iter}`;
+    await delay();
   }
+  should_reset = 0;
 }
 
-function delay(time) {
-  return new Promise((resolve) => setTimeout(resolve, time));
+function delay() {
+  let time = document.getElementById("time_slider").value;
+  // console.log("TIMPUL SELECTAT: " + time);
+  return new Promise((resolve) => setTimeout(resolve, time*10));
 }
 
 function getNextBoard(board, rows, cols) {
@@ -105,6 +129,4 @@ function createSeed(board, rows, cols) {
 
 mat = createMatrix(rows, cols);
 seed = createSeed(mat, rows, cols);
-let board1 = seed;
-let board2 = createMatrix(rows, cols);
 drawCells(seed, rows, cols);
