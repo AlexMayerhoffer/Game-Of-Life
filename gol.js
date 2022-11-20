@@ -14,6 +14,17 @@ function drawCells(board, rows, cols) {
   }
 }
 
+function updateCells(board, rows, cols) {
+  let cell = game_board.firstChild;
+  for (let i = 0; i < rows; i++) {
+    for (let j = 0; j < cols; j++) {
+      if (board[i][j] == 1) cell.style.backgroundColor = "darkgreen";
+      else cell.style.backgroundColor = "rgb(164, 219, 121)";
+      cell = cell.nextSibling;
+    }
+  }
+}
+
 function removeCells() {
   while (game_board.firstChild) {
     game_board.removeChild(game_board.lastChild);
@@ -29,16 +40,20 @@ let rows = Math.floor(cols * (15 / 40));
 
 // Game logic --------------------------------------------
 async function startGame(seed) {
+  let nr_iter = 0;
   console.log("Start game");
-  let curr_board = getNextBoard(seed, rows, cols);
-  console.log("Got here");
+
   while (true) {
-    console.log("Waiting...");
-    await delay(20);
-    console.log("Passed .5 seconds...");
-    removeCells();
-    drawCells(curr_board, rows, cols);
-    curr_board = getNextBoard(curr_board, rows, cols);
+    board2 = getNextBoard(board1, rows, cols);
+    updateCells(board1, rows, cols);
+    nr_iter++;
+    document.getElementById("iterations").innerHTML = `Iteratii: ${nr_iter}`;
+    await delay(50);
+    board1 = getNextBoard(board2, rows, cols);
+    updateCells(board2, rows, cols);
+    nr_iter++;
+    document.getElementById("iterations").innerHTML = `Iteratii: ${nr_iter}`;
+    await delay(50);
   }
 }
 
@@ -69,7 +84,7 @@ function calcNeighbors(board, x, y) {
       }
     }
   }
-  console.log(`Sum for [${x}][${y}] is ${sum}`);
+  // console.log(`Sum for [${x}][${y}] is ${sum}`);
   return sum - board[x][y];
 }
 
@@ -90,4 +105,6 @@ function createSeed(board, rows, cols) {
 
 mat = createMatrix(rows, cols);
 seed = createSeed(mat, rows, cols);
+let board1 = seed;
+let board2 = createMatrix(rows, cols);
 drawCells(seed, rows, cols);
